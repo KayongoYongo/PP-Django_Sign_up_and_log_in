@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import User
-from .forms import UserForm
+from .signUpForm import UserForm
 
 # Create your views here.
 def home(request):
