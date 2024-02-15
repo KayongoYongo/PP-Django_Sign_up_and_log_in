@@ -11,4 +11,4 @@ class User(models.Model):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     session_id = models.CharField(max_length=100, blank=True, null=True)
     reset_token = models.CharField(max_length=100, blank=True, null=True)
-    daate_joined = models.DateTimeField(default=timezone.now)
+    date_joined = models.DateTimeField(default=timezone.now)
