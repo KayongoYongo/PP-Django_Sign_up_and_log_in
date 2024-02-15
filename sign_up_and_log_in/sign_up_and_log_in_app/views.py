@@ -23,11 +23,9 @@ def sign_up(request):
             second_name = form.cleaned_data['second_name']
             email = form.cleaned_data['email']
             phone_number = form.cleaned_data['phone_number']
-            password = form.cleaned_data['password']
-            User.objects.create_user(first_name=first_name, second_name=second_name, email=email, phone_number=phone_number, password=password)
-            # user = authenticate(email=email, password=password)
+            hashed_password = form.cleaned_data['hashed_password']
+            User.objects.create(first_name=first_name, second_name=second_name, email=email, phone_number=phone_number, hashed_password=hashed_password)
             messages.success(request, "Sign up successful! Please log in")
-            # login(request, user)
             return redirect('log_in_page')
     else:
         form = UserForm(request.POST)

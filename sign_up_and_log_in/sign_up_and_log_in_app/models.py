@@ -3,7 +3,6 @@ from django.utils import timezone
 
 # Create your models here.
 class User(models.Model):
-    id = models.CharField(max_length=100, primary_key=True)
     email = models.EmailField(unique=True)
     hashed_password = models.CharField(max_length=128)
     first_name = models.CharField(max_length=50)
