@@ -1,0 +1,23 @@
+{% extends "sign_up_and_log_in_app/base.html" %}
+{% block title %}Log in{% endblock %}
+{% block head %}
+    {{ super }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block content %}
+    <h1>Sign up</h1>
+    <form method="post" action="#">
+        {% csrf_token %}
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <button type="submit">Log In</button>
+    </form>
+    <a href="{% url 'home' %}">Back to homepage</a>
+{% endblock %}
