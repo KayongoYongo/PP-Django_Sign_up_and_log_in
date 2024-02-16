@@ -3,6 +3,7 @@ from .models import User
 from .signUpForm import UserForm
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 def home(request):
@@ -23,8 +24,9 @@ def sign_up(request):
         if form.is_valid():
             user_name = form.cleaned_data['user_name']
             email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            User.objects.create(user_name=user_name, email=email, password=password)
+            password = form.cleaned_data['password_1']
+            hashed_password = make_password(password)
+            User.objects.create(user_name=user_name, email=email, password=hashed_password)
             messages.success(request, "Sign up successful! Please log in")
             print(user_name,email,password)
             return redirect('log_in_page')
