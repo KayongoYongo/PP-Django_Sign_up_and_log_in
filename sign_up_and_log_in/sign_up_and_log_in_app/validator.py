@@ -1,1 +1,0 @@
-# A simple custom validator
