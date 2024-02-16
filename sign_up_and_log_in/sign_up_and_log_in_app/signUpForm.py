@@ -4,8 +4,8 @@ from django import forms
 from .models import User
 
 class UserForm(ModelForm):
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}), required=False)
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}), required=False)
+    password_1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}), required=False)
+    password_2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}), required=False)
 
     class Meta:
         model = User
@@ -17,7 +17,6 @@ class UserForm(ModelForm):
         widgets = {
             'user_name': TextInput(attrs={'placeholder': 'User Name'}),
             'email': TextInput(attrs={'placeholder': 'Enter Email'}),
-            'password': TextInput(attrs={'placeholder': 'Password'}),
         }
 
         labels = {
@@ -27,8 +26,8 @@ class UserForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)
-        self.fields['password1'].label = ''
-        self.fields['password2'].label = ''
+        self.fields['password_1'].label = ''
+        self.fields['password_2'].label = ''
         # Adding a validator to enforce minimum password length
         
     def clean_email(self):
@@ -36,6 +35,7 @@ class UserForm(ModelForm):
 
         if email is None or email.strip() == '':
             raise forms.ValidationError("The email cannot remain empty")
+        
         return email
     
     def clean_user_name(self):
@@ -46,13 +46,31 @@ class UserForm(ModelForm):
         return user_name
     
     
-    def clean_password(self):
-        password1 = self.cleaned_data.get("password1")
+    def clean_password_1(self):
+        password_1 = self.cleaned_data.get("password_1")
 
-        if password1 is None or password1.strip() == '':
+        if password_1 is None or password_1.strip() == '':
             raise forms.ValidationError("The password cannot remian empty")
         
-        if len(password1) < 6:
+        if len(password_1) < 6:
             raise forms.ValidationError("The password cannot be less than 6 characters")
         
-        return password1
+        return password_1
+    
+    def clean_password_2(self):
+        password_2 = self.cleaned_data.get("password_2")
+
+        if password_2 is None or password_2.strip() == '':
+            raise forms.ValidationError("The password cannot remian empty")
+        
+        return password_2
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        password_1 = cleaned_data.get("password_1")
+        password_2 = cleaned_data.get("password_2")
+
+        if password_1 and password_2 and password_1 != password_2:
+            raise forms.ValidationError("Passwords do not match")
+
+        return cleaned_data
