@@ -8,11 +8,12 @@
 {% endblock %}
 {% block content %}
     <h1>Sign up</h1>
-    <form method="post" action=" {% url 'sign_up' %}">
-        {% csrf_token %}
-        <label for="title"></label>
-            {{ form }}
-        <button type="submit">Sign Up</button>
-    </form>
-    <a href="{% url 'home' %}">Back to homepage</a>
+    <p>Create an account by filling the following details:</p>
+        <form method="post" action=" {% url 'sign_up' %}">
+            {% csrf_token %}
+            <label for="title"></label>
+                {{ form }}
+            <button type="submit">Sign Up</button>
+        </form>
+        <a href="{% url 'home' %}">Back to homepage</a>
 {% endblock %}
