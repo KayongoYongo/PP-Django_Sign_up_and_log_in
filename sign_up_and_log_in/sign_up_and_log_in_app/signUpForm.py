@@ -4,8 +4,8 @@ from django import forms
 from .models import User
 
 class UserForm(ModelForm):
-    password_1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}), required=False)
-    password_2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}), required=False)
+    password_1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class':'form-control'}), required=False)
+    password_2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password', 'class':'form-control'}), required=False)
 
     class Meta:
         model = User
@@ -15,8 +15,8 @@ class UserForm(ModelForm):
         ]
 
         widgets = {
-            'user_name': TextInput(attrs={'placeholder': 'User Name'}),
-            'email': TextInput(attrs={'placeholder': 'Enter Email'}),
+            'user_name': TextInput(attrs={'placeholder': 'User Name', 'class':'form-control'}),
+            'email': TextInput(attrs={'placeholder': 'Enter Email', 'class':'form-control'}),
         }
 
         labels = {
