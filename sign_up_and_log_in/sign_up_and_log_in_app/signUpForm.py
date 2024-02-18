@@ -1,9 +1,8 @@
 from django.forms import ModelForm, TextInput
-from django.core.validators import MinLengthValidator
 from django import forms
 from .models import User
 
-class UserForm(ModelForm):
+class signUpForm(ModelForm):
     password_1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class':'form-control'}), required=False)
     password_2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password', 'class':'form-control'}), required=False)
 
@@ -18,17 +17,6 @@ class UserForm(ModelForm):
             'user_name': TextInput(attrs={'placeholder': 'User Name', 'class':'form-control'}),
             'email': TextInput(attrs={'placeholder': 'Enter Email', 'class':'form-control'}),
         }
-
-        labels = {
-            "user_name": '',
-            "email": '', 
-        }
-
-    def __init__(self, *args, **kwargs):
-        super(UserForm, self).__init__(*args, **kwargs)
-        self.fields['password_1'].label = ''
-        self.fields['password_2'].label = ''
-        # Adding a validator to enforce minimum password length
         
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -42,15 +30,14 @@ class UserForm(ModelForm):
         user_name =  self.cleaned_data.get('user_name')
 
         if user_name is None or user_name.strip() == '':
-            raise forms.ValidationError("The user name cannot remian empty")
+            raise forms.ValidationError("The user name cannot remain empty")
         return user_name
-    
-    
+  
     def clean_password_1(self):
         password_1 = self.cleaned_data.get("password_1")
 
         if password_1 is None or password_1.strip() == '':
-            raise forms.ValidationError("The password cannot remian empty")
+            raise forms.ValidationError("The password cannot remain empty")
         
         if len(password_1) < 6:
             raise forms.ValidationError("The password cannot be less than 6 characters")
@@ -61,7 +48,7 @@ class UserForm(ModelForm):
         password_2 = self.cleaned_data.get("password_2")
 
         if password_2 is None or password_2.strip() == '':
-            raise forms.ValidationError("The password cannot remian empty")
+            raise forms.ValidationError("The password cannot remain empty")
         
         return password_2
     
