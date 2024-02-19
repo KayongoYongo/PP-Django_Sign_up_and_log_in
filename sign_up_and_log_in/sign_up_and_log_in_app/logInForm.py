@@ -1,22 +1,27 @@
 from django import forms
+from django.forms import ModelForm
+from .models import User
 
-
-class logInForm(forms.Form):
+class logInForm(ModelForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Enter Email', 'class': 'form-control'}), required=False)
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}), required=False)
 
-    def clean(self):
-        cleaned_data = super().clean()
-        email = cleaned_data.get("email")
-        password = cleaned_data.get("password")
+    class Meta:
+        model = User
+        fields = ['email', 'password']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
 
         if email is None or email.strip() == '':
             raise forms.ValidationError("The email cannot remain empty")
+        
+        return email
+    
+    def clean_password(self):
+        password = self.cleaned_data.get("password")
 
         if password is None or password.strip() == '':
             raise forms.ValidationError("The password cannot remain empty")
         
-        if len(password) < 6:
-            raise forms.ValidationError("The password cannot be less than 6 characters")
-
-        return cleaned_data
+        return password
