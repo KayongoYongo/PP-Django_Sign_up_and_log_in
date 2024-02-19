@@ -24,6 +24,10 @@ class signUpForm(ModelForm):
         if email is None or email.strip() == '':
             raise forms.ValidationError("The email cannot remain empty")
         
+        # Check if the email exists
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email is already registered.")
+        
         return email
     
     def clean_user_name(self):
