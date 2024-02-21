@@ -1,23 +1,31 @@
-from django.forms import ModelForm, TextInput
+from django.forms import TextInput, PasswordInput
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django import forms
-from .models import User
 
-class signUpForm(ModelForm):
-    password_1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class':'form-control'}), required=False)
-    password_2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password', 'class':'form-control'}), required=False)
-
+class signUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = [
-            "user_name",
-            "email", 
+            "username",
+            "email",
+            "password1",
+            "password2", 
         ]
 
-        widgets = {
-            'user_name': TextInput(attrs={'placeholder': 'User Name', 'class':'form-control'}),
-            'email': TextInput(attrs={'placeholder': 'Enter Email', 'class':'form-control'}),
-        }
-        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget = TextInput(attrs={'placeholder': 'User Name', 'class':'form-control'})
+        self.fields['email'].widget = TextInput(attrs={'placeholder': 'Enter Email', 'class':'form-control'})
+        self.fields['password1'].widget = PasswordInput(attrs={'placeholder': 'Password', 'class':'form-control'})
+        self.fields['password2'].widget = PasswordInput(attrs={'placeholder': 'Confirm Password', 'class':'form-control'})
+
+        # Remove HTML form validation
+        self.fields['email'].required = False
+        self.fields['username'].required = False
+        self.fields['password1'].required = False
+        self.fields['password2'].required = False
+
     def clean_email(self):
         email = self.cleaned_data.get('email')
 
@@ -30,38 +38,38 @@ class signUpForm(ModelForm):
         
         return email
     
-    def clean_user_name(self):
-        user_name =  self.cleaned_data.get('user_name')
+    def clean_username(self):
+        username =  self.cleaned_data.get('username')
 
-        if user_name is None or user_name.strip() == '':
+        if username is None or username.strip() == '':
             raise forms.ValidationError("The user name cannot remain empty")
-        return user_name
+        return username
   
-    def clean_password_1(self):
-        password_1 = self.cleaned_data.get("password_1")
+    def clean_password1(self):
+        password1 = self.cleaned_data.get("password1")
 
-        if password_1 is None or password_1.strip() == '':
+        if password1 is None or password1.strip() == '':
             raise forms.ValidationError("The password cannot remain empty")
         
-        if len(password_1) < 6:
+        if len(password1) < 6:
             raise forms.ValidationError("The password cannot be less than 6 characters")
         
-        return password_1
+        return password1
     
-    def clean_password_2(self):
-        password_2 = self.cleaned_data.get("password_2")
+    def clean_password2(self):
+        password2 = self.cleaned_data.get("password2")
 
-        if password_2 is None or password_2.strip() == '':
+        if password2 is None or password2.strip() == '':
             raise forms.ValidationError("The password cannot remain empty")
         
-        return password_2
+        return password2
     
     def clean(self):
         cleaned_data = super().clean()
-        password_1 = cleaned_data.get("password_1")
-        password_2 = cleaned_data.get("password_2")
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
 
-        if password_1 and password_2 and password_1 != password_2:
+        if password1 and password2 and password1 != password2:
             raise forms.ValidationError("Passwords do not match")
 
         return cleaned_data
