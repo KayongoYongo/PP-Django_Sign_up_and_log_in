@@ -18,10 +18,17 @@
         <div class="col-md-6 offset-md-3">
             <h1>Welcome</h1>
             <p>Log in to your account below:</p>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
             <form method="post" action="{% url 'log_in' %}">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="id_email">email</label>
+                    <label for="id_email">Email</label>
                     {{ form.email }}
                     {% for error in form.email.errors %}
                         <p class="text-danger">{{ error }}</p>
