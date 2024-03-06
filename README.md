@@ -8,7 +8,8 @@
 * Log out
 
 ## Functionalities remaining
-* Forget password
+* Remember me
+* Forgtt password
 * Email notification for resetting password
 * Google auth
 
