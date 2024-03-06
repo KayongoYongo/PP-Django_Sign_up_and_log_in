@@ -6,10 +6,10 @@
 * Sign up
 * Log in
 * Log out
+* Remember me
 
 ## Functionalities remaining
-* Remember me
-* Forgtt password
+* Forgot password
 * Email notification for resetting password
 * Google auth
 
