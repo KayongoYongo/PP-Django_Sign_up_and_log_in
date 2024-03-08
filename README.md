@@ -7,6 +7,7 @@
 * Log in
 * Log out
 * Remember me
+* Created super user
 
 ## Functionalities remaining
 * Forgot password
