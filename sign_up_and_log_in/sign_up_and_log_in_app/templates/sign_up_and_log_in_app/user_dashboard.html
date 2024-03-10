@@ -10,6 +10,10 @@
             padding: 20px; /* Optional: Add padding for better appearance */
             border-radius: 10px; /* Optional: Add border radius for rounded corners */
         }
+        .user-image {
+            max-width: 200px; /* Adjust the maximum width of the image as needed */
+            max-height: 200px; /* Adjust the maximum height of the image as needed */
+        }
     </style>
 {% endblock %}
 {% block content %}
@@ -21,14 +25,15 @@
             </div>
         {% endfor %}
     {% endif %}
-    {% if user.is_authenticated %}
-    <!--If the user is authenticated show this-->
-    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a> 
-    {% else %}  
-    {% endif %}
+    <h4>Welcome, {{ username }}</h4> <!-- Display the username -->
     <form method="post" enctype="multipart/form-data" action="{% url 'upload_image' %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Save Image</button>
     </form>
+    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+    {% if user_profile.image %}
+        <h3>Profile picture:</h3>
+        <img src="{{ user_profile.image.url }}" alt="User Image" class="user-image">
+    {% endif %}
 {% endblock %}
