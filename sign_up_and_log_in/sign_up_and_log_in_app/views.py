@@ -5,6 +5,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.conf import settings
+from .models import UserProfile
 from .userProfileForm import UserProfileForm
 from django.contrib.auth.decorators import login_required
 
@@ -21,8 +22,13 @@ def log_in_page(request):
     return render(request, 'sign_up_and_log_in_app/log_in.html', {'form': form})
 
 def user_dashboard(request):
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        user_profile = None
+
     form = UserProfileForm()
-    return render(request, 'sign_up_and_log_in_app/user_dashboard.html', {'form': form})
+    return render(request, 'sign_up_and_log_in_app/user_dashboard.html', {'form': form, 'username': request.user.username, 'user_profile': user_profile})
 
 def sign_up(request):
     if request.method == 'POST':
@@ -102,10 +108,12 @@ def upload_image(request):
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES)
         if form.is_valid():
-            instance = form.save(commit=False)
-            instance.user = request.user  # Assign the currently logged-in user to the user field
-            instance.save()
+            user_profile = form.save(commit=False)
+            user_profile.user = request.user  # Assign the currently logged-in user to the user field
+            user_profile.save()
+            messages.success(request, 'Image uploaded successfully.')
             return redirect('user_dashboard')
         else:
             form = UserProfileForm()
+            print(request.user.username)
     return render(request, 'user_dashboard.html', {'form': form, 'username': request.user.username})
