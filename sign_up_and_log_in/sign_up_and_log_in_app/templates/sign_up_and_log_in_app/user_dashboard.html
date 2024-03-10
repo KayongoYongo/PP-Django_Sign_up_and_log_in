@@ -1,0 +1,34 @@
+{% extends "sign_up_and_log_in_app/base.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+    {{ super }}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container-centered {
+            margin-top: 150px; /* Optional: Adjust the top margin as needed */
+            background-color: white; /* Set the background color to blue */
+            padding: 20px; /* Optional: Add padding for better appearance */
+            border-radius: 10px; /* Optional: Add border radius for rounded corners */
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <h1>User Dashboard</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if user.is_authenticated %}
+    <!--If the user is authenticated show this-->
+    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a> 
+    {% else %}  
+    {% endif %}
+    <form method="post" enctype="multipart/form-data" action="{% url 'upload_image' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Image</button>
+    </form>
+{% endblock %}
