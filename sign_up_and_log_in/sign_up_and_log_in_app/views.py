@@ -5,6 +5,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.conf import settings
+from .userProfileForm import UserProfileForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
@@ -17,6 +19,10 @@ def sign_up_page(request):
 def log_in_page(request):
     form = logInForm()
     return render(request, 'sign_up_and_log_in_app/log_in.html', {'form': form})
+
+def user_dashboard(request):
+    form = UserProfileForm()
+    return render(request, 'sign_up_and_log_in_app/user_dashboard.html', {'form': form})
 
 def sign_up(request):
     if request.method == 'POST':
@@ -90,3 +96,16 @@ def logout_view(request):
     logout(request)
     # Redirect to a desired page after logout
     return redirect('home')
+
+@login_required
+def upload_image(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user  # Assign the currently logged-in user to the user field
+            instance.save()
+            return redirect('user_dashboard')
+        else:
+            form = UserProfileForm()
+    return render(request, 'user_dashboard.html', {'form': form, 'username': request.user.username})
