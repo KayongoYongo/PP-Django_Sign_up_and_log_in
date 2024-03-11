@@ -33,6 +33,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID=1
 
 # Application definition
 
@@ -44,7 +45,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sign_up_and_log_in_app'
+    'django.contrib.sites'
+    "allauth"
+    "allauth.account"
+    "allauth.socialaccount"
+    "allauth.scoialaccount.providers.google"
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google" : {
+        "SCOPE": [
+            "profile",
+            "email"
+        ],
+        "AUTH_PARAMAS": {"access_type": "online"}
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -134,3 +150,11 @@ MEDIA_URL = '/media/'
 
 # The path where Django stores our uploaded files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+AUTHENTICATION_BACKENDS = (
+    "django.contib.auth.backends.ModelBackend"
+    "allauth.accounts.auth_backends.AuthenticationBackend"
+)
+
+LOGIN_REDIRECT_URL ="/"
+LOGIN_REDIRECT_URL ="/" 
