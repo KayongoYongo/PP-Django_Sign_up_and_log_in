@@ -11,7 +11,6 @@
 
 ## Functionalities remaining
 * Forgot password
-* Email notification for resetting password
 * Google auth
 
 To get started with the app, run this command `python manage.py runserver`
