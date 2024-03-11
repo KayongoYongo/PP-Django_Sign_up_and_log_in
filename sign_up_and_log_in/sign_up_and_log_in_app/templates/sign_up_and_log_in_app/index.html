@@ -25,6 +25,7 @@
     <!--If the user is authenticated show this-->
     <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
     <a href="{% url 'user_dashboard' %}" class="btn btn-primary">User Dashboard</a>
+    <p>You are signed in as {{user.username}} </p>
     {% else %}
     <!--If the user is not authenticated,  impliment this-->
     <a href="{% url 'log_in_page' %}" class="btn btn-primary">Log in</a> 

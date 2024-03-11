@@ -49,6 +49,9 @@
             </form>
             <a href="{% url 'home' %}" class="btn btn-link">Back to homepage</a>
             <p>Don't have an account? <a href="{% url 'sign_up' %}" class="btn btn-link" style="display:inline;">Sign up</a></p>
+            {% load socialaccount %}
+            <p>Google Login</p>
+            <a href="{% provider_login_url 'google' %}?next=/">Login With Google</a>
         </div>
     </div>
 </div>
