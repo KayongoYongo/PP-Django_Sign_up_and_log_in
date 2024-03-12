@@ -1,5 +1,6 @@
 # ignore python bytecode
 *.pyc
+.env
 
 # Ignore python cache directory
 __pycache__/

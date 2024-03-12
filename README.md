@@ -9,8 +9,6 @@
 * Remember me
 * Created super user
 * Google Auth
-
-## Functionalities remaining
-* Forgot password
+* Send email
 
 To get started with the app, run this command `python manage.py runserver`
