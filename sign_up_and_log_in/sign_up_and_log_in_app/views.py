@@ -8,6 +8,7 @@ from django.conf import settings
 from .models import UserProfile
 from .userProfileForm import UserProfileForm
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 
 # Create your views here.
 def home(request):
@@ -117,3 +118,13 @@ def upload_image(request):
             form = UserProfileForm()
             print(request.user.username)
     return render(request, 'user_dashboard.html', {'form': form, 'username': request.user.username})
+
+@login_required
+def send_email(request):
+    subject = 'Email sent successfully'
+    message = 'This is the first email.'
+    recipient_list = ['sknsammie10@gmail.com']
+
+    send_mail(subject, message, settings.EMAIL_HOST_USER, recipient_list)
+        
+    return redirect('home')
